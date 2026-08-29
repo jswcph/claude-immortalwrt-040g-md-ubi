@@ -184,14 +184,11 @@ jobs:
       # 7. 更新 feeds
       # ========================================================
 
-      - name: Update feeds
+      - name: Update & Install feeds
         run: |
-          set -e
-
-          cd openwrt
-
           ./scripts/feeds update -a
-
+          ./scripts/feeds install -a
+          
       # ========================================================
       # 8. 安装 feeds
       # ========================================================
