@@ -1,25 +1,64 @@
 #!/bin/bash
-# DIY-P1：在 ./scripts/feeds update 之前执行
-# 作用：向 feeds.conf.default 追加官方源里没有的第三方插件源
-# 当前工作目录：openwrt 源码根目录
 
-# PassWall（含依赖包）
-sed -i '$a src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main' feeds.conf.default
-sed -i '$a src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main' feeds.conf.default
-sed -i '$a src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main' feeds.conf.default
+set -e
 
+echo "=========================================="
+echo "添加第三方 feeds"
+echo "=========================================="
+
+# ============================================================
+# PassWall packages
+# ============================================================
+
+echo "添加 PassWall packages..."
+
+cat >> feeds.conf.default <<'EOF'
+src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main
+EOF
+
+# ============================================================
+# PassWall
+# ============================================================
+
+echo "添加 PassWall..."
+
+cat >> feeds.conf.default <<'EOF'
+src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main
+EOF
+
+# ============================================================
 # OpenClash
-sed -i '$a src-git openclash https://github.com/vernesong/OpenClash.git;dev' feeds.conf.default
+# ============================================================
 
-# iStore 商店
-sed -i '$a src-git istore https://github.com/linkease/istore.git;main' feeds.conf.default
-sed -i '$a src-git istore_lucky https://github.com/linkease/istore-lucky.git' feeds.conf.default
+echo "添加 OpenClash..."
 
+cat >> feeds.conf.default <<'EOF'
+src-git openclash https://github.com/vernesong/OpenClash.git;dev
+EOF
+
+# ============================================================
 # Lucky
-sed -i '$a src-git lucky https://github.com/sirpdboy/luci-app-lucky.git' feeds.conf.default
+# ============================================================
 
-# 文件管理器
-sed -i '$a src-git filemanager https://github.com/lisaac/luci-app-filemanager.git' feeds.conf.default
+echo "添加 Lucky..."
 
-echo "=== feeds.conf.default 追加完成 ==="
-tail -n 10 feeds.conf.default
+cat >> feeds.conf.default <<'EOF'
+src-git lucky https://github.com/sirpdboy/luci-app-lucky.git
+EOF
+
+# ============================================================
+# File Manager
+# ============================================================
+
+echo "添加 File Manager..."
+
+cat >> feeds.conf.default <<'EOF'
+src-git filemanager https://github.com/lisaac/luci-app-filemanager.git
+EOF
+
+echo
+echo "=========================================="
+echo "当前 feeds.conf.default"
+echo "=========================================="
+
+tail -n 20 feeds.conf.default
